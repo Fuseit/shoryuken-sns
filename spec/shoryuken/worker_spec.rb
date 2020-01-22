@@ -9,26 +9,13 @@ RSpec.describe Shoryuken::Worker do
   end
 
   describe '.shoryuken_options' do
-    it 'registers a worker' do
-      expect(Shoryuken.worker_registry.workers('default')).to eq([TestWorker])
-    end
-
-    it 'accepts a block as a topic' do
-      $topic_prefix = 'production'
-
-      class NewTestWorker
-        include Shoryuken::Worker
-
-        shoryuken_options topic: -> { "#{$topic_prefix}_default" }
-      end
-
-      expect(Shoryuken.worker_registry.workers('production_default')).to eq([NewTestWorker])
-      expect(NewTestWorker.get_shoryuken_options['topic']).to eq 'production_default'
+    it 'should not register a worker' do
+      expect(Shoryuken.worker_registry.workers('default')).to eq([])
     end
 
     it 'does not change the original hash' do
       class TestWorker
-        include Shoryuken::Worker
+        include Shoryuken::Sns::Worker
 
         OPT = { topic: :default }.freeze
 
@@ -40,24 +27,12 @@ RSpec.describe Shoryuken::Worker do
       expect(TestWorker::OPT[:topic]).to eq(:default)
     end
 
-    it 'accepts an array as a topic' do
-      class WorkerMultipleTopics
-        include Shoryuken::Worker
-
-        shoryuken_options topic: %w[topic1 topic2 topic3]
-      end
-
-      expect(Shoryuken.worker_registry.workers('topic1')).to eq([WorkerMultipleTopics])
-      expect(Shoryuken.worker_registry.workers('topic2')).to eq([WorkerMultipleTopics])
-      expect(Shoryuken.worker_registry.workers('topic3')).to eq([WorkerMultipleTopics])
-    end
-
     it 'is possible to configure the global defaults' do
       topic = SecureRandom.uuid
       Shoryuken.default_worker_options['topic'] = topic
 
       class GlobalDefaultsTestWorker
-        include Shoryuken::Worker
+        include Shoryuken::Sns::Worker
 
         shoryuken_options auto_delete: true
       end
@@ -69,7 +44,7 @@ RSpec.describe Shoryuken::Worker do
 
     it 'accepts a symbol as a topic and converts to string' do
       class SymbolTopicTestWorker
-        include Shoryuken::Worker
+        include Shoryuken::Sns::Worker
 
         shoryuken_options topic: :default
       end
@@ -77,21 +52,9 @@ RSpec.describe Shoryuken::Worker do
       expect(SymbolTopicTestWorker.get_shoryuken_options['topic']).to eq 'default'
     end
 
-    it 'accepts an array that contains symbols as a topic and converts to string' do
-      class WorkerMultipleSymbolTopics
-        include Shoryuken::Worker
-
-        shoryuken_options topic: %i[symbol_topic1 symbol_topic2 symbol_topic3]
-      end
-
-      expect(Shoryuken.worker_registry.workers('symbol_topic1')).to eq([WorkerMultipleSymbolTopics])
-      expect(Shoryuken.worker_registry.workers('symbol_topic2')).to eq([WorkerMultipleSymbolTopics])
-      expect(Shoryuken.worker_registry.workers('symbol_topic3')).to eq([WorkerMultipleSymbolTopics])
-    end
-
     it 'preserves parent class options' do
       class ParentWorker
-        include Shoryuken::Worker
+        include Shoryuken::Sns::Worker
 
         shoryuken_options topic: 'mytopic', auto_delete: false
       end
@@ -131,7 +94,7 @@ RSpec.describe Shoryuken::Worker do
     context 'the worker clears the middleware chain' do
       before do
         class NewTestWorker2
-          include Shoryuken::Worker
+          include Shoryuken::Sns::Worker
 
           server_middleware(&:clear)
         end
@@ -149,7 +112,7 @@ RSpec.describe Shoryuken::Worker do
     context 'the worker modifies the chain' do
       before do
         class NewTestWorker3
-          include Shoryuken::Worker
+          include Shoryuken::Sns::Worker
 
           server_middleware do |chain|
             chain.remove Shoryuken::Middleware::Server::Timing

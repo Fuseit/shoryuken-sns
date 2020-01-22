@@ -2,7 +2,7 @@ require "bundler/setup"
 require "shoryuken/sns"
 
 class TestWorker
-  include Shoryuken::Worker
+  include Shoryuken::Sns::Worker
 
   shoryuken_options topic: 'default'
 
