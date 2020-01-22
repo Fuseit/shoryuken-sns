@@ -1,8 +1,5 @@
 RSpec.describe Shoryuken::Sns do
 
-  before do
-    ENV['AWS_REGION'] = 'eu-west-1'
-  end
   it "has a version number" do
     expect(Shoryuken::Sns::VERSION).not_to be nil
   end
@@ -13,5 +10,9 @@ RSpec.describe Shoryuken::Sns do
 
   it 'Shoryuken still implements old delegation methods' do
     expect(Shoryuken.groups).to eq({})
+  end
+
+  it 'sns send_message' do
+    TestWorker.perform_async('test_msg')
   end
 end
