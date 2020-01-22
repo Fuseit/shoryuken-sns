@@ -1,4 +1,8 @@
 RSpec.describe Shoryuken::Sns do
+
+  before do
+    ENV['AWS_REGION'] = 'eu-west-1'
+  end
   it "has a version number" do
     expect(Shoryuken::Sns::VERSION).not_to be nil
   end
