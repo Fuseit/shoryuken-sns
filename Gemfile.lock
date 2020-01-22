@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     shoryuken-sns (0.1.0)
+      aws-sdk-sqs
       shoryuken (= 5.0.2)
 
 GEM
