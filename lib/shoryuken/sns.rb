@@ -1,4 +1,5 @@
 require 'shoryuken'
+require 'aws-sdk-sns'
 
 require 'shoryuken/worker/sns_executor'
 

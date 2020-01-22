@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     shoryuken-sns (0.1.0)
+      aws-sdk-sns
       aws-sdk-sqs
       shoryuken (= 5.0.2)
 
@@ -15,6 +16,9 @@ GEM
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
+    aws-sdk-sns (1.21.0)
+      aws-sdk-core (~> 3, >= 3.71.0)
+      aws-sigv4 (~> 1.1)
     aws-sdk-sqs (1.23.1)
       aws-sdk-core (~> 3, >= 3.71.0)
       aws-sigv4 (~> 1.1)
@@ -48,7 +52,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aws-sdk-sqs
   byebug
   rake (~> 12.0)
   rspec (~> 3.0)
