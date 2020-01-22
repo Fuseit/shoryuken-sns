@@ -11,7 +11,7 @@ module Shoryuken
 
           options[:message] = body
 
-          queue = options.delete(:topic) || worker_class.get_shoryuken_options['topic']
+          topic = options.delete(:topic) || worker_class.get_shoryuken_options['topic']
 
           Shoryuken::Sns::Client.topics(topic).send_message(options)
         end
