@@ -5,7 +5,7 @@ RSpec.describe Shoryuken::Worker do
   let(:topic)     { 'default' }
 
   before do
-    allow(Shoryuken::Client).to receive(:topic).and_return(sns_topic)
+    allow(Shoryuken::Sns::Client).to receive(:topic).and_return(sns_topic)
   end
 
   describe '.shoryuken_options' do
