@@ -29,5 +29,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "aws-sdk-sns"
   spec.add_dependency "aws-sdk-sqs"
-  spec.add_dependency "shoryuken", "5.0.2"
+  spec.add_dependency "shoryuken", "5.0.3"
 end
