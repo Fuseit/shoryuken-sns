@@ -4,7 +4,7 @@ PATH
     shoryuken-sns (0.1.0)
       aws-sdk-sns
       aws-sdk-sqs
-      shoryuken (= 5.0.2)
+      shoryuken (= 5.0.3)
 
 GEM
   remote: https://rubygems.org/
@@ -42,7 +42,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.2)
-    shoryuken (5.0.2)
+    shoryuken (5.0.3)
       aws-sdk-core (>= 2)
       concurrent-ruby
       thor
