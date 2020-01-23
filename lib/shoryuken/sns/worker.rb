@@ -12,16 +12,7 @@ module Shoryuken
         include Shoryuken::Worker::ClassMethods
 
         def perform_async(body, options = {})
-          executor = Shoryuken::Worker::SnsExecutor
-
-          # Try to keep the ability to still execute inline
-          # while still forcing publishing to SNS when using
-          # this worker
-          if Shoryuken.worker_executor == Shoryuken::Worker::InlineExecutor
-            executor = Shoryuken::Worker::InlineExecutor
-          end
-
-          executor.perform_async(self, body, options)
+          Shoryuken::Worker::SnsExecutor.perform_async(self, body, options)
         end
 
         def perform_in(interval, body, options = {})
@@ -31,6 +22,7 @@ module Shoryuken
 
         def shoryuken_options(opts = {})
           self.shoryuken_options_hash = get_shoryuken_options.merge(stringify_keys(opts || {}))
+          normalize_worker_queue! if shoryuken_options_hash['queue']
           normalize_worker_topic!
         end
 

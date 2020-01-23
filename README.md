@@ -1,14 +1,13 @@
-# Shoryuken::Sns
+# Shoryuken::SNS
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/shoryuken/sns`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A Shoryuken extension that allows sending message to SNS.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add to the application's Gemfile:
 
 ```ruby
+gem 'shoryuken'
 gem 'shoryuken-sns'
 ```
 
@@ -22,7 +21,68 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+When consuming messages, this extension changes absolutely nothing in Shoryuken.
+The full documentation can be found [here](https://github.com/phstc/shoryuken/wiki/Getting-Started).
+
+Just as the documentation points out, consumers can be added by including `Shoryuken::Worker`:
+
+```ruby
+class HelloWorker
+  include Shoryuken::Worker
+
+  shoryuken_options queue: 'hello'
+
+  def perform(sqs_msg, name)
+    puts "Hello, #{name}"
+  end
+end
+```
+
+If a work will be both consuming and publishing, the extended worker should
+be used, `Shoryuken::Sns::Worker` and both `queue` and `topic` should be set:
+
+```ruby
+class HelloWorker
+  include Shoryuken::Sns::Worker
+
+  shoryuken_options queue: 'hello', topic: 'hello'
+
+  def perform(sqs_msg, name)
+    puts "Hello, #{name}"
+  end
+end
+```
+
+When a publisher and consmer aren't withing the same code-base, it is important
+that the two workers share the same class name:
+
+For the consumer:
+
+```ruby
+class HelloWorker
+  include Shoryuken::Worker
+
+  shoryuken_options queue: 'hello'
+
+  def perform(sqs_msg, name)
+    puts "Hello, #{name}"
+  end
+end
+```
+
+...and for the publisher:
+
+```ruby
+class HelloWorker
+  include Shoryuken::Worker
+
+  shoryuken_options topic: 'hello'
+end
+```
+
+### Options
+
+Only the `topic` option has been added and it **must** be the topic's ARN
 
 ## Development
 
@@ -32,7 +92,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/shoryuken-sns. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/shoryuken-sns/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/Fuseit/shoryuken-sns. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/Fuseit/shoryuken-sns/blob/master/CODE_OF_CONDUCT.md).
 
 
 ## License
@@ -41,4 +101,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Shoryuken::Sns project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/shoryuken-sns/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Shoryuken::Sns project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/Fuseit/shoryuken-sns/blob/master/CODE_OF_CONDUCT.md).
