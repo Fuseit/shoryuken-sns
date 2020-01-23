@@ -1,5 +1,5 @@
 module Shoryuken
   module Sns
-    VERSION = "0.1.0"
+    VERSION = "5.0.3"
   end
 end
