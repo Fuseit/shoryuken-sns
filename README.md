@@ -87,8 +87,8 @@ Only the `topic` option has been added and it **must** be the topic's ARN
 ## TODO
 
 - Custom message sanitization
-- Server middleware to wrapped the message in a custom format
 - Server middleware to publish the result of the consumer to SNS
+- Auto-create queues and subscriptions
 
 ## Development
 
