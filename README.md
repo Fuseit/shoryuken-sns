@@ -53,7 +53,7 @@ class HelloWorker
 end
 ```
 
-When a publisher and consmer aren't withing the same code-base, it is important
+When a publisher and consmer aren't within the same code-base, it is important
 that the two workers share the same class name:
 
 For the consumer:
