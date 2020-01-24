@@ -4,7 +4,7 @@ require "shoryuken/sns"
 class TestWorker
   include Shoryuken::Sns::Worker
 
-  shoryuken_options topic: 'default'
+  shoryuken_options queue: 'default', topic: 'default'
 
   def perform(sns_msg, arg); end
 end

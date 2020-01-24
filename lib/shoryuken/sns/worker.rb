@@ -22,7 +22,7 @@ module Shoryuken
 
         def shoryuken_options(opts = {})
           self.shoryuken_options_hash = get_shoryuken_options.merge(stringify_keys(opts || {}))
-          normalize_worker_queue! if shoryuken_options_hash['queue']
+          normalize_worker_queue!
           normalize_worker_topic!
         end
 
