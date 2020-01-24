@@ -84,6 +84,12 @@ end
 
 Only the `topic` option has been added and it **must** be the topic's ARN
 
+## TODO
+
+- Custom message sanitization
+- Server middleware to wrapped the message in a custom format
+- Server middleware to publish the result of the consumer to SNS
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
