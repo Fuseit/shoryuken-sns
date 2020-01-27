@@ -24,11 +24,11 @@ Or install it yourself as:
 When consuming messages, this extension changes absolutely nothing in Shoryuken.
 The full documentation can be found [here](https://github.com/phstc/shoryuken/wiki/Getting-Started).
 
-Just as the documentation points out, consumers can be added by including `Shoryuken::Worker`:
+Just as the documentation points out, consumers can be added by including `Shoryuken::Sns::Worker`:
 
 ```ruby
 class HelloWorker
-  include Shoryuken::Worker
+  include Shoryuken::Sns::Worker
 
   shoryuken_options queue: 'hello'
 
@@ -60,7 +60,7 @@ For the consumer:
 
 ```ruby
 class HelloWorker
-  include Shoryuken::Worker
+  include Shoryuken::Sns::Worker
 
   shoryuken_options queue: 'hello'
 
@@ -74,7 +74,7 @@ end
 
 ```ruby
 class HelloWorker
-  include Shoryuken::Worker
+  include Shoryuken::Sns::Worker
 
   shoryuken_options topic: 'hello'
 end

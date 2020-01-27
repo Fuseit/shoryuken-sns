@@ -1,7 +1,7 @@
 module Shoryuken
   module Sns
     class Topic
-      attr_accessor :arn, :client
+      attr_accessor :client, :arn
 
       def initialize client, arn
         self.arn = arn
