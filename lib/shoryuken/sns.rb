@@ -6,6 +6,7 @@ require 'shoryuken/worker/sns_executor'
 require 'shoryuken/sns/topic'
 require 'shoryuken/sns/client'
 require 'shoryuken/sns/worker'
+require 'shoryuken/sns/message'
 require 'shoryuken/sns/options'
 require 'shoryuken/sns/version'
 
