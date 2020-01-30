@@ -24,6 +24,10 @@ module Shoryuken
         fail NotImplementedError
       end
 
+      def list_subscriptions
+        topic.subscriptions
+      end
+
       private
 
       def topic

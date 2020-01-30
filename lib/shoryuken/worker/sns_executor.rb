@@ -1,5 +1,7 @@
 module Shoryuken
   module Worker
+    class NoSubscriptionsError < StandardError; end
+
     class SnsExecutor
       class << self
         def perform_async(worker_class, body, options = {})
@@ -12,8 +14,13 @@ module Shoryuken
           options[:message] = body
 
           topic = options.delete(:topic) || worker_class.get_shoryuken_options['topic']
+          client = Shoryuken::Sns::Client.topics(topic)
 
-          Shoryuken::Sns::Client.topics(topic).send_message(options)
+          if worker_class.get_shoryuken_options['verify_subscriptions'] && client.list_subscriptions.count < 1
+            raise Shoryuken::Worker::NoSubscriptionsError, "No subscriptions for #{topic}"
+          end
+
+          client.send_message(options)
         end
 
         def perform_in(worker_class, interval, body, options = {})
