@@ -40,5 +40,32 @@ RSpec.describe Shoryuken::Worker::SnsExecutor do
 
       TestWorker.perform_async('delayed message', topic: new_topic)
     end
+
+    context 'when it verifies subscriptions' do
+      before do
+        allow(Shoryuken::Sns::Client).to receive(:topics).with(topic).and_return(sqs_topic)
+      end
+
+      class TestVerifySubscriptionsWorker
+        include Shoryuken::Sns::Worker
+
+        shoryuken_options queue: 'default', topic: 'default', verify_subscriptions: true
+
+        def perform(sns_msg, arg); end
+      end
+
+      subject { TestVerifySubscriptionsWorker.perform_async('message') }
+
+      it 'raises an error when there are no subscriptions' do
+        expect(sqs_topic).to receive_message_chain([:list_subscriptions, :count]).and_return(0)
+        expect { subject }.to raise_error(Shoryuken::Worker::NoSubscriptionsError, "No subscriptions for default")
+      end
+
+      it 'does not raise an error when there are subscriptions' do
+        expect(sqs_topic).to receive_message_chain([:list_subscriptions, :count]).and_return(1)
+        expect(sqs_topic).to receive(:send_message)
+        expect { subject }.not_to raise_error
+      end
+    end
   end
 end
