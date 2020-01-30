@@ -40,13 +40,30 @@ RSpec.describe Shoryuken::Message do
       let(:body) {{
         "Type" => "Notification",
         "TopicArn" => "default",
-        "Message" => "test"
+        "Message" => "test",
+        "MessageAttributes" => {
+          "test_key" => {
+            "Type" => "String",
+            "Value" => "Test Value"
+          }
+        }
       }.to_json}
+
+      let(:parsed_body) {{
+        "test_key" => {
+          "data_type" => "String",
+          "string_value" => "Test Value"
+        }
+      }}
 
       subject { described_class.new(client, queue, data) }
 
-      it 'returns an data as the message body' do
+      it 'returns the data as the message body' do
         expect(subject.body).to eq("test")
+      end
+
+      it 'adds unparsed message attributes' do
+        expect(subject.message_attributes).to eq(parsed_body)
       end
     end
   end
