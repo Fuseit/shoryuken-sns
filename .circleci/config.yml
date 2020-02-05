@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.6.3
+        environment:
+          RAILS_ENV: test
+    steps:
+      - checkout
+      - run:
+          name: Run bundler
+          command: |
+            sudo gem uninstall bundler -a -x
+            sudo gem install bundler
+            bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+      - run:
+          name: Run RSpec
+          command: |
+            FILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            bundle exec rspec --format progress \
+                              $FILES
+
