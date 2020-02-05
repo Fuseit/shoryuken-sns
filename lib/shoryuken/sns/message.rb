@@ -11,15 +11,22 @@ Shoryuken::Message.class_eval do
   private
 
   def parse_data(data)
-    json = JSON.parse(data.body) rescue nil
+    body = JSON.parse(data.body) rescue nil
 
-    return data unless json
+    return data unless body
 
-    if json['Type'] &&
-       json['Type'] == 'Notification' &&
-       json['TopicArn']
-      data.body = json.delete('Message')
-      data.message_attributes = json.delete('MessageAttributes')
+    if body['Type'] &&
+       body['Type'] == 'Notification' &&
+       body['TopicArn']
+      data.body = body['Message']
+
+      # Undo the changes to attributes that SNS applies
+      body['MessageAttributes'].each do |k,v|
+        v['data_type'] = v.delete('Type')
+        v['string_value'] = v.delete('Value')
+      end if body['MessageAttributes']
+
+      data.message_attributes = body['MessageAttributes']
     end
 
     data
