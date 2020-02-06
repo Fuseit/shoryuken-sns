@@ -50,9 +50,9 @@ RSpec.describe Shoryuken::Message do
       }.to_json}
 
       let(:parsed_body) {{
-        "test_key" => {
-          "data_type" => "String",
-          "string_value" => "Test Value"
+        test_key: {
+          data_type: "String",
+          string_value: "Test Value"
         }
       }}
 

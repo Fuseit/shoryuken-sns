@@ -26,7 +26,7 @@ Shoryuken::Message.class_eval do
         v['string_value'] = v.delete('Value')
       end if body['MessageAttributes']
 
-      data.message_attributes = body['MessageAttributes']
+      data.message_attributes = body['MessageAttributes'].deep_symbolize_keys
     end
 
     data
