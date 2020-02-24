@@ -22,11 +22,11 @@ Shoryuken::Message.class_eval do
 
       # Undo the changes to attributes that SNS applies
       body['MessageAttributes'].each do |k,v|
-        v['data_type'] = v.delete('Type')
-        v['string_value'] = v.delete('Value')
+        v[:data_type] = v.delete('Type')
+        v[:string_value] = v.delete('Value')
       end if body['MessageAttributes']
 
-      data.message_attributes = body['MessageAttributes'].deep_symbolize_keys
+      data.message_attributes = body['MessageAttributes']
     end
 
     data
