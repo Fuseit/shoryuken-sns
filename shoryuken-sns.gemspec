@@ -4,19 +4,19 @@ Gem::Specification.new do |spec|
   spec.name          = "shoryuken-sns"
   spec.version       = Shoryuken::Sns::VERSION
   spec.authors       = ["Steven Eksteen"]
-  spec.email         = ["eksoverzero@outlook.com"]
+  spec.email         = ["steven.eksteen@fuseuniversal.com"]
 
   spec.summary       = "Shoryuken with SNS"
   spec.description   = "Publish messages to SNS using Shoryuken"
-  spec.homepage      = "https://github.com/eksoverzero/shoryuken-sns"
-  spec.license       = "MIT"
+  spec.homepage      = "https://github.com/Fuseit/shoryuken-sns"
+  spec.license       = "BSD 3-Clause"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
   spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
-  spec.metadata["changelog_uri"] = "https://github.com/eksoverzero/shoryuken-sns/CHANGELOG.md"
+  spec.metadata["changelog_uri"] = "https://github.com/Fuseit/shoryuken-sns/CHANGELOG.md"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
