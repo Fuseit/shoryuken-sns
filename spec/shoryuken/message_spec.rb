@@ -66,5 +66,25 @@ RSpec.describe Shoryuken::Message do
         expect(subject.message_attributes).to eq(parsed_body)
       end
     end
+
+    context 'when the worker class is namespaced' do
+      let(:body) {{
+        "Type" => "Notification",
+        "TopicArn" => "default",
+        "Message" => "test",
+        "MessageAttributes" => {
+          "shoryuken_class" => {
+            "Type" => "String",
+            "Value" => "NameSpace::TestWorker"
+          }
+        }
+      }.to_json}
+
+      subject { described_class.new(client, queue, data) }
+
+      it 'removes the namespace' do
+        expect(subject.message_attributes[:shoryuken_class][:string_value]).to eq('TestWorker')
+      end
+    end
   end
 end
