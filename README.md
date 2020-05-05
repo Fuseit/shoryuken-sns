@@ -82,7 +82,8 @@ end
 
 ### Options
 
-Only the `topic` option has been added and it **must** be the topic's ARN
+* `topic`: STRING - AWS topic ARN to publish messages to
+* `verify_subscriptions`: BOOLEAN - Will raise an exception, if true, if the topic has no subscriptions
 
 ## TODO
 
