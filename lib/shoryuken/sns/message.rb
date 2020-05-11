@@ -24,9 +24,15 @@ Shoryuken::Message.class_eval do
       body['MessageAttributes'].each do |k,v|
         v[:data_type] = v.delete('Type')
         v[:string_value] = v.delete('Value')
+
+        # Strip out namespaces from the publishing worker
+        # class name
+        if k == 'shoryuken_class'
+          v[:string_value] = v[:string_value].split("::")[-1]
+        end
       end if body['MessageAttributes']
 
-      data.message_attributes = body['MessageAttributes']
+      data.message_attributes = body['MessageAttributes'].symbolize_keys!
     end
 
     data
